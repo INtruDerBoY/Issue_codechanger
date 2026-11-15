@@ -2,18 +2,17 @@ import os
 import shutil
 import stat
 import subprocess
+import sys
 
 SANDBOX_IMAGE = "issue-sandbox"
 
 
-def check_docker() -> None:
-    # Verify Docker is running before executing commands
+def check_docker() -> bool:
     try:
-        res = subprocess.run(["docker", "info"], capture_output=True, text=True, timeout=10)
-        if res.returncode != 0:
-            raise RuntimeError("Docker is not running. Please start Docker Desktop.")
-    except Exception as e:
-        raise RuntimeError("Docker is not available: " + str(e))
+        res = subprocess.run(["docker", "info"], capture_output=True, text=True, timeout=5)
+        return res.returncode == 0
+    except Exception:
+        return False
 
 
 def format_docker_path(path: str) -> str:
@@ -64,26 +63,25 @@ def trim_output(output: str, max_lines: int = 60) -> str:
 
 
 def run_pytest(workdir: str, timeout: int = 60) -> tuple[int, str]:
-    check_docker()
-    mounted_path = format_docker_path(workdir)
-    cmd = [
-        "docker", "run", "--rm",
-        "--network", "none",
-        "--memory", "512m",
-        "--cpus", "1",
-        "--pids-limit", "128",
-        "-v", f"{mounted_path}:/repo",
-        "-w", "/repo",
-        SANDBOX_IMAGE,
-        "pytest", "-x", "-q", "-o", "cache_dir=/tmp/.pytest_cache"
-    ]
+    if check_docker():
+        mounted = format_docker_path(workdir)
+        cmd = [
+            "docker", "run", "--rm",
+            "--network", "none",
+            "--memory", "512m",
+            "--cpus", "1",
+            "--pids-limit", "128",
+            "-v", f"{mounted}:/repo",
+            "-w", "/repo",
+            SANDBOX_IMAGE,
+            "pytest", "-x", "-q", "-o", "cache_dir=/tmp/.pytest_cache"
+        ]
+        cwd = None
+    else:
+        cmd = [sys.executable, "-m", "pytest", "-x", "-q", "-o", "cache_dir=/tmp/.pytest_cache"]
+        cwd = workdir
     try:
-        proc = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=timeout
-        )
+        proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout)
         combined = proc.stdout + proc.stderr
         if proc.returncode == 5:
             return 5, "No pytest tests found in repository (Python + pytest required)."
