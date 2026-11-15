@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+myenv/
+runs.db
+checkpoints.sqlite
+node_modules/
+dist/
+test_*.sqlite
+

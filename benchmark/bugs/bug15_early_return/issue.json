@@ -1,0 +1,5 @@
+{
+  "title": "validate_required_fields returns True when subsequent required fields are missing",
+  "body": "In schema.py, validate_required_fields contains an early return inside the loop, causing it to return True immediately if the first field exists without validating the remaining required fields."
+}
+

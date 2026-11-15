@@ -1,0 +1,5 @@
+{
+  "title": "format_full_name crashes when middle name is None",
+  "body": "When a user has middle=None, format_full_name raises an AttributeError because it unconditionally calls .strip() on the middle name."
+}
+

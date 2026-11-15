@@ -1,0 +1,5 @@
+{
+  "title": "is_senior_eligible rejects age 65 due to strict inequality",
+  "body": "In eligibility.py, individuals aged exactly 65 are evaluated as False because the check uses age > SENIOR_AGE_THRESHOLD instead of age >= SENIOR_AGE_THRESHOLD."
+}
+

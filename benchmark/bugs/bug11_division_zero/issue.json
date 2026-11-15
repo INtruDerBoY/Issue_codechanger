@@ -1,0 +1,5 @@
+{
+  "title": "compute_ratio crashes with ZeroDivisionError when denominator is zero",
+  "body": "In ratios.py, compute_ratio does not check if denominator is 0 before dividing, causing unhandled ZeroDivisionError. It should safely return 0.0."
+}
+

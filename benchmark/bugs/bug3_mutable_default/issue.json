@@ -1,0 +1,5 @@
+{
+  "title": "track_event leaks tags across different event calls",
+  "body": "track_event has a mutable default argument tags=[] which causes items appended to tags in one call to persist into subsequent calls."
+}
+

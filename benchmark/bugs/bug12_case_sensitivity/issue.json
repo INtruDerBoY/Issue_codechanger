@@ -1,0 +1,5 @@
+{
+  "title": "contains_keyword fails to find matches with different casing",
+  "body": "In searcher.py, contains_keyword performs a raw case-sensitive check, failing to match keywords when letter casing differs."
+}
+

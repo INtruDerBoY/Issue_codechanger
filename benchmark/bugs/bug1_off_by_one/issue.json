@@ -1,0 +1,5 @@
+{
+  "title": "Pagination returns extra item on pages",
+  "body": "The paginate_items function returns one item too many. When requesting page 1 with page_size=3 from a list of 10 items, it returns 4 items instead of 3."
+}
+

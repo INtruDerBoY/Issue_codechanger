@@ -1,0 +1,5 @@
+{
+  "title": "get_unique_items scrambles list order during deduplication",
+  "body": "In dedup.py, get_unique_items converts items to a set, which destroys the original sequence order. It should deduplicate while preserving first-seen order."
+}
+

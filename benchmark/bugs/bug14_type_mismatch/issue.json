@@ -1,0 +1,5 @@
+{
+  "title": "calculate_offset raises TypeError when params contain string numbers",
+  "body": "In pagination.py, calculate_offset expects integer arithmetic directly on dictionary values. When query params contain strings such as {'page': '2', 'limit': '10'}, subtraction raises TypeError: unsupported operand type(s) for -: 'str' and 'int'."
+}
+

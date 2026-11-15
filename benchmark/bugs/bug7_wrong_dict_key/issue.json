@@ -1,0 +1,4 @@
+{
+  "title": "get_user_email returns empty string for standard payload",
+  "body": "In auth.py, get_user_email queries payload['user_email'] instead of the standard payload key 'email'."
+}

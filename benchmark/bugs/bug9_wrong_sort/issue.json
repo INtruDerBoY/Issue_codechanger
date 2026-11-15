@@ -1,0 +1,4 @@
+{
+  "title": "get_leaderboard sorts lowest score first instead of highest",
+  "body": "In sorter.py, get_leaderboard should rank top scorers first (descending score order), but currently sorts ascending."
+}

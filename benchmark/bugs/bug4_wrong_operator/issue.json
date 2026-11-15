@@ -1,0 +1,4 @@
+{
+  "title": "Discounts increase total price instead of decreasing it",
+  "body": "In pricing.py, calculate_final_price is adding the discount amount to the base price instead of subtracting it, leading to inflated totals."
+}

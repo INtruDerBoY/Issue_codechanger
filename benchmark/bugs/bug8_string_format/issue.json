@@ -1,0 +1,4 @@
+{
+  "title": "format_currency truncates cents to a single decimal digit",
+  "body": "format_currency outputs $12.5 instead of the standard two-digit cents representation $12.50 because of a formatting string bug."
+}

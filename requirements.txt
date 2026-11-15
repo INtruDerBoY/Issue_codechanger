@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+langgraph
+langgraph-checkpoint-sqlite
+groq
+requests
+pytest
+python-dotenv
+pydantic
+

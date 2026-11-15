@@ -1,0 +1,4 @@
+{
+  "title": "calculate_mean crashes with ZeroDivisionError when passed empty list",
+  "body": "In stats.py, calculate_mean should return 0.0 when given an empty list, but currently raises ZeroDivisionError."
+}
