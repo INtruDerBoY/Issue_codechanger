@@ -18,7 +18,7 @@ def get_llm_client() -> Groq:
 
 def call_llm(system_prompt: str, user_prompt: str, json_mode: bool = True) -> tuple[str, int]:
     client = get_llm_client()
-    model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    model = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
     kwargs = {
         "model": model,
         "messages": [
@@ -39,6 +39,8 @@ def call_llm(system_prompt: str, user_prompt: str, json_mode: bool = True) -> tu
             return text, tokens
         except Exception as e:
             last_err = e
+            if "model_not_found" in str(e) or "does not exist" in str(e):
+                kwargs["model"] = "openai/gpt-oss-120b"
             time.sleep(1)
     raise RuntimeError(f"LLM call failed after 2 retries: {last_err}")
 
