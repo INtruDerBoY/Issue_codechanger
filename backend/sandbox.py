@@ -42,9 +42,16 @@ def copy_repo(src_path: str, dest_path: str) -> None:
         if res.returncode != 0:
             raise RuntimeError(f"Failed to clone repository: {res.stderr.strip()}")
     else:
-        if not os.path.exists(clean_src):
+        norm = clean_src.replace("\\", "/")
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        candidates = [clean_src, norm, os.path.join(root_dir, norm.lstrip("/"))]
+        if "benchmark/bugs/" in norm:
+            rel = norm[norm.index("benchmark/bugs/"):]
+            candidates.extend([rel, os.path.join(root_dir, rel)])
+        found = next((c for c in candidates if os.path.exists(c)), None)
+        if not found:
             raise FileNotFoundError(f"Local repo path not found: {clean_src}")
-        shutil.copytree(clean_src, dest_path)
+        shutil.copytree(found, dest_path)
 
 
 def apply_patch(workdir: str, patch: dict[str, str]) -> None:
